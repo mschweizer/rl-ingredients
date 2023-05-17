@@ -5,12 +5,13 @@ from rl_ingredients.agent import agent_ingredient, create_agent, get_algorithm_i
 from rl_ingredients.agent_logger import logger_ingredient, create_logger
 from rl_ingredients.environment import env_ingredient, create_vec_env
 from rl_ingredients.evaluation_callback import create_eval_callback, eval_callback_ingredient
-from rl_ingredients.utils import utilities_ingredient, create_results_path, log_wrappers, RESULTS_DIR
+from rl_ingredients.observer import CustomFileStorageObserver
+from rl_ingredients.utils import utilities_ingredient, get_or_create_log_path, log_wrappers
 
 experiment = Experiment("experiment",
                         ingredients=[agent_ingredient, env_ingredient, logger_ingredient,
                                      eval_callback_ingredient, utilities_ingredient])
-experiment.observers.append(FileStorageObserver(basedir=f"{RESULTS_DIR}/sacred"))
+experiment.observers.append(FileStorageObserver(basedir=f"results"))
 
 
 # noinspection PyUnusedLocal
@@ -19,14 +20,9 @@ def cfg():
     training_steps = 10_000  # the number of agent training steps
 
 
-@experiment.pre_run_hook
-def add_observer(utilities):
-    experiment.observers.append(FileStorageObserver(basedir=f"{utilities['results_dir']}/sacred"))
-
-
 @experiment.automain
 def run(training_steps):
-    log_path = create_results_path(training_steps=training_steps)
+    log_path = get_or_create_log_path(training_steps=training_steps)
 
     env = create_vec_env()
     agent = create_agent(env)
