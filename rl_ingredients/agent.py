@@ -19,7 +19,7 @@ def cfg():
 @agent_ingredient.pre_run_hook
 def assert_algorithm(algorithm):
     assert algorithm in ALGORITHMS, \
-        f"RL algorithm {algorithm} is not supported. Please choose configure any of {ALGORITHMS}."
+        f"RL algorithm {algorithm} is not supported. Please choose any of {ALGORITHMS}."
 
 
 @agent_ingredient.capture

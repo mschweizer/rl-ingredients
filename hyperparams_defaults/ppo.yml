@@ -1,0 +1,12 @@
+# Source: rl_zoo3 hyperparams for the MiniGrid-DoorKey-5x5-v0 env.
+#  (Following https://github.com/lcswillems/rl-starter-files)
+
+policy: MlpPolicy
+n_steps: 128 # batch size is n_steps * n_env
+batch_size: 64 # Number of training minibatches per update
+gae_lambda: 0.95 #  Factor for trade-off of bias vs variance for Generalized Advantage Estimator
+gamma: 0.99
+n_epochs: 10 #  Number of epoch when optimizing the surrogate
+ent_coef: 0.0 # Entropy coefficient for the loss caculation
+learning_rate: 2.5e-4 # The learning rate, it can be a function
+clip_range: 0.2 # Clipping parameter, it can be a function
