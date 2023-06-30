@@ -1,3 +1,5 @@
+import copy
+
 from sacred import Experiment
 from sacred.observers import FileStorageObserver
 
@@ -17,18 +19,20 @@ experiment.observers.append(FileStorageObserver(basedir=f"results"))
 @experiment.config
 def cfg():
     training_steps = 10_000  # the number of agent training steps
+    env_id = "CartPole-v0"  # the name of the task environment (must be registered with gym)
 
 
 @experiment.automain
-def run(training_steps):
-    log_path = get_or_create_log_path(training_steps=training_steps)
+def run(training_steps, env_id):
+    log_path = get_or_create_log_path(training_steps=training_steps, env_id=env_id)
 
-    env = create_vec_env()
-    agent = create_agent(env)
+    vec_env, env = create_vec_env(env_id)
+    agent = create_agent(vec_env)
 
     agent.set_logger(create_logger(log_path=log_path))
 
-    eval_callback = create_eval_callback(results_path=log_path,
+    eval_callback = create_eval_callback(env=copy.deepcopy(env),
+                                         results_path=log_path,
                                          num_vectorized_training_steps=training_steps // agent.n_envs,
                                          algorithm=get_algorithm_id())  # TODO: get algo directly from agent object
 

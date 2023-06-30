@@ -10,7 +10,6 @@ env_ingredient = Ingredient("environment")
 # noinspection PyUnusedLocal
 @env_ingredient.config
 def cfg():
-    env_id = "CartPole-v0"  # the name of the task environment (must be registered with gym)
     num_envs = 2  # the number of environments (vectorized environments are used)
 
 

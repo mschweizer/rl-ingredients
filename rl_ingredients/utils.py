@@ -24,12 +24,12 @@ def get_dependencies():
 
 
 @utilities_ingredient.capture
-def get_or_create_log_path(agent, environment, training_steps, _run, _log, base_log_dir="results", nickname=None):
+def get_or_create_log_path(agent, env_id, training_steps, _run, _log, base_log_dir="results", nickname=None):
     observer = get_custom_file_storage_observer(_run)
     if observer:
         base_log_dir = observer.basedir
 
-    log_dir_name = create_log_dir_name(agent, environment, nickname, training_steps, base_log_dir)
+    log_dir_name = create_log_dir_name(agent, env_id, nickname, training_steps, base_log_dir)
 
     if observer:
         log_path = observer.get_log_path_with_new_name(new_name=log_dir_name, logger=_log)
@@ -51,16 +51,16 @@ def get_custom_file_storage_observer(_run):
         return registered_file_storage_observers[0]
 
 
-def create_log_dir_name(agent, environment, nickname, training_steps, base_log_dir):
-    prefix = create_prefix(base_log_dir=base_log_dir, environment=environment, agent=agent,
+def create_log_dir_name(agent, env_id, nickname, training_steps, base_log_dir):
+    prefix = create_prefix(base_log_dir=base_log_dir, env_id=env_id, agent=agent,
                            training_steps=training_steps)
     nickname = nickname if nickname else randomname.generate('a/character', 'n/apex_predators')
     return f"{prefix}_{nickname}"
 
 
 @utilities_ingredient.capture
-def create_prefix(base_log_dir, environment, agent, training_steps):
-    run_name = f"env={environment['name']}_algo={agent['algorithm']}_nsteps={training_steps}"
+def create_prefix(base_log_dir, env_id, agent, training_steps):
+    run_name = f"env={env_id}_algo={agent['algorithm']}_nsteps={training_steps}"
 
     if os.path.exists(base_log_dir):
         run_number = len([name for name in os.listdir(base_log_dir) if name.startswith(run_name + "_")]) + 1
