@@ -23,7 +23,7 @@ def create_env(name, env_kwargs=None):
 def create_vec_env(num_envs, vec_env_start_method="spawn"):
     env = create_env()
     vec_env = vectorize_env(env, num_envs, vec_env_start_method)
-    return vec_env
+    return vec_env, env
 
 
 def vectorize_env(env, num_envs, vec_env_start_method="spawn"):
