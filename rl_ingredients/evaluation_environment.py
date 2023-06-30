@@ -1,7 +1,7 @@
 from gym.wrappers import RecordVideo
 from sacred import Ingredient
 
-from rl_ingredients.environment import create_env, vectorize_env
+from rl_ingredients.environment import vectorize_env
 
 eval_env_ingredient = Ingredient("evaluation_environment")
 
@@ -16,8 +16,7 @@ def cfg():
 
 
 @eval_env_ingredient.capture
-def create_eval_env(num_envs, videos, num_eval_episodes, results_path, video_dir=None, videos_per_eval=None):
-    env = create_env()
+def create_eval_env(env, num_envs, videos, num_eval_episodes, results_path, video_dir=None, videos_per_eval=None):
     if videos:
         recording_freq = max(num_eval_episodes // videos_per_eval, 1)
         env = RecordVideo(env,

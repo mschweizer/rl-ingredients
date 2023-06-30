@@ -17,10 +17,10 @@ def cfg():
 
 
 @eval_callback_ingredient.capture
-def create_eval_callback(results_path, num_vectorized_training_steps, algorithm,
+def create_eval_callback(env, results_path, num_vectorized_training_steps, algorithm,
                          save_best_model, log_files, num_evals, num_eval_episodes, std_out):
     return EvalCallback(
-        eval_env=create_eval_env(results_path=results_path, num_eval_episodes=num_eval_episodes),
+        eval_env=create_eval_env(env=env, results_path=results_path, num_eval_episodes=num_eval_episodes),
         best_model_save_path=results_path if save_best_model else None,
         log_path=results_path if log_files else None,
         eval_freq=max(num_vectorized_training_steps // num_evals, 1),
