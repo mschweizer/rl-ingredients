@@ -5,7 +5,6 @@ from rl_ingredients.agent import agent_ingredient, create_agent, get_algorithm_i
 from rl_ingredients.agent_logger import logger_ingredient, create_logger
 from rl_ingredients.environment import env_ingredient, create_vec_env
 from rl_ingredients.evaluation_callback import create_eval_callback, eval_callback_ingredient
-from rl_ingredients.observer import CustomFileStorageObserver
 from rl_ingredients.utils import utilities_ingredient, get_or_create_log_path, log_wrappers
 
 experiment = Experiment("experiment",
