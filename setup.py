@@ -12,7 +12,7 @@ setup(name='rl-ingredients',
           'sacred==0.8.4',
           'gym==0.21',
           'randomname==0.2.1',
-          'stable-baselines3==1.7.0',
+          'stable-baselines3==1.8.0',
           'PyYAML==6.0',
           'tensorboard==2.12.0'
       ],
